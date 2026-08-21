@@ -137,6 +137,35 @@ body>*{position:relative;z-index:1}
 .sv-dot{width:8px;height:3px;border-radius:0;background:var(--txt5);transition:all .25s}
 .sv-dot.on{width:18px;background:linear-gradient(90deg,var(--blue),var(--red));box-shadow:0 0 6px rgba(92,124,250,.4)}
 
+/* ===== Horoscope ===== */
+.horo-sec{padding:20px 0 8px}
+.horo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px}
+.horo-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1px solid rgba(255,255,255,.12);border-radius:3px;background:rgba(24,28,42,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer;transition:all .25s;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+.horo-btn:active{transform:scale(.95)}
+.horo-btn.on{border-color:rgba(92,124,250,.5);background:linear-gradient(135deg,rgba(92,124,250,.2),rgba(92,124,250,.05));box-shadow:0 0 14px rgba(92,124,250,.2)}
+.horo-btn .horo-sym{font-size:22px;line-height:1}
+.horo-btn .horo-name{font-size:9px;font-weight:600;color:var(--txt3);letter-spacing:.3px;transition:color .25s}
+.horo-btn.on .horo-name{color:var(--blue)}
+.horo-result{margin:12px 16px 0;border:1px solid rgba(92,124,250,.2);border-radius:4px;background:rgba(12,14,20,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);overflow:hidden;display:none;border-left:3px solid var(--blue);box-shadow:var(--glow)}
+.horo-result.show{display:block;animation:horoIn .5s ease}
+@keyframes horoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.horo-head{padding:14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.horo-head .horo-big{font-size:36px}
+.horo-head-info h3{font-size:15px;font-weight:700;color:#fff}
+.horo-head-info span{font-size:11px;color:var(--txt3)}
+.horo-scan{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.06);font-size:11px;color:var(--blue);font-weight:600;letter-spacing:.5px}
+.horo-scan .scan-bar{flex:1;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.horo-scan .scan-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--red));border-radius:2px;animation:scanFill 1.2s ease forwards}
+@keyframes scanFill{to{width:100%}}
+.horo-body{padding:14px}
+.horo-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.horo-stat{text-align:center;padding:10px 6px;border:1px solid rgba(255,255,255,.08);border-radius:3px;background:rgba(255,255,255,.02)}
+.horo-stat .stat-label{font-size:9px;font-weight:600;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.horo-stat .stat-val{font-size:14px;font-weight:700;color:var(--blue)}
+.horo-stat .stat-bar{margin-top:6px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.horo-stat .stat-bar span{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--blue2))}
+.horo-msg{font-size:12px;color:var(--txt2);line-height:1.7;padding:10px 12px;border:1px solid rgba(92,124,250,.1);border-radius:3px;background:rgba(92,124,250,.04)}
+
 /* ===== FAQ Section ===== */
 .faq-sec{padding-top:8px}
 .faq-chips{display:flex;gap:6px;overflow-x:auto;padding:0 16px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -367,6 +396,21 @@ body>*{position:relative;z-index:1}
 </section>
 
 <div class="glow-line"></div>
+<!-- ========== HOROSCOPE ========== -->
+<section class="horo-sec" id="horoscope">
+<div class="w"><div class="sec-t"><div class="line"></div><h2 data-i="horo_t">Daily Horoscope</h2><div class="line"></div></div></div>
+<div class="horo-grid" id="horoGrid"></div>
+<div class="horo-result" id="horoResult">
+  <div class="horo-head"><span class="horo-big" id="horoBig"></span><div class="horo-head-info"><h3 id="horoTitle"></h3><span id="horoDate"></span></div></div>
+  <div class="horo-scan"><span>ANALYZING</span><div class="scan-bar"><div class="scan-fill"></div></div></div>
+  <div class="horo-body" id="horoBody" style="display:none">
+    <div class="horo-stats" id="horoStats"></div>
+    <div class="horo-msg" id="horoMsg"></div>
+  </div>
+</div>
+</section>
+
+<div class="glow-line"></div>
 <!-- ========== FAQ ========== -->
 <section id="faq" class="faq-sec">
 <div class="w"><div class="sec-t"><div class="line"></div><h2 data-i="lbl_faq">FAQ</h2><div class="line"></div></div></div>
@@ -592,7 +636,8 @@ var NE={
   fq27q:"एप लोड हुँदैन वा क्र्यास हुन्छ?",fq27a:"कृपया यी चरणहरू क्रमशः प्रयास गर्नुहोस्:<br>१. इन्टरनेट जडान जाँच गर्नुहोस्, Wi-Fi र मोबाइल डाटा बीच स्विच गर्नुहोस्।<br>२. एप बन्द गरी पुनः खोल्नुहोस्।<br>३. एप क्यास क्लियर गर्नुहोस् (Settings → Apps → NPwin365 → Clear Cache)।<br>४. एप अनइन्स्टल गरी नवीनतम संस्करण पुनः स्थापना गर्नुहोस्।<br>समस्या रहिरहेमा ग्राहक सहायतालाई सम्पर्क गर्नुहोस्।",
   fq28q:"ब्राउजर क्यास र कुकीज कसरी क्लियर गर्ने?",fq28a:"मोबाइल Chrome: माथि दायाँको मेनु (⋮) → Settings → Privacy → Clear Browsing Data → \"Cached images and files\" र \"Cookies\" चेक गर्नुहोस् → Clear मा ट्याप गर्नुहोस्।<br>iPhone Safari: Settings → Safari → Clear History and Website Data।<br>क्लियर गरेपछि पुनः लगइन गर्नुहोस्।",
   cs_title:"२४/७ लाइभ च्याट",cs_sub:"हाम्रो टोलीबाट तुरुन्तै सहयोग पाउनुहोस्",
-  soc_t:"हामीलाई फलो गर्नुहोस्",disc:"१८+ मात्र। जिम्मेवारीपूर्वक खेल्नुहोस्।"
+  soc_t:"हामीलाई फलो गर्नुहोस्",disc:"१८+ मात्र। जिम्मेवारीपूर्वक खेल्नुहोस्।",
+  horo_t:"दैनिक राशिफल"
 };
 
 var curLang="en";
@@ -625,6 +670,7 @@ function setLang(lang){
   document.querySelectorAll(".img-ne").forEach(function(el){el.style.display=lang==="ne"?"":"none"});
   document.documentElement.lang=lang==="en"?"en":"ne";
   renderStep();
+  window.dispatchEvent(new Event("langChanged"));
 }
 
 function getTutTitle(tut){
@@ -807,6 +853,126 @@ document.querySelectorAll(".tut-carousel, .faq-chips").forEach(function(el){
     if(dx<0){document.getElementById("svNext").click()}
     else{document.getElementById("svPrev").click()}
   },{passive:true});
+})();
+
+/* ===== Horoscope ===== */
+(function(){
+var SIGNS=[
+  {sym:"♈",en:"Aries",ne:"मेष",date:"Mar 21–Apr 19"},
+  {sym:"♉",en:"Taurus",ne:"वृष",date:"Apr 20–May 20"},
+  {sym:"♊",en:"Gemini",ne:"मिथुन",date:"May 21–Jun 20"},
+  {sym:"♋",en:"Cancer",ne:"कर्कट",date:"Jun 21–Jul 22"},
+  {sym:"♌",en:"Leo",ne:"सिंह",date:"Jul 23–Aug 22"},
+  {sym:"♍",en:"Virgo",ne:"कन्या",date:"Aug 23–Sep 22"},
+  {sym:"♎",en:"Libra",ne:"तुला",date:"Sep 23–Oct 22"},
+  {sym:"♏",en:"Scorpio",ne:"वृश्चिक",date:"Oct 23–Nov 21"},
+  {sym:"♐",en:"Sagittarius",ne:"धनु",date:"Nov 22–Dec 21"},
+  {sym:"♑",en:"Capricorn",ne:"मकर",date:"Dec 22–Jan 19"},
+  {sym:"♒",en:"Aquarius",ne:"कुम्भ",date:"Jan 20–Feb 18"},
+  {sym:"♓",en:"Pisces",ne:"मीन",date:"Feb 19–Mar 20"}
+];
+var MSGS_EN=[
+  "A great day to take calculated risks. Trust your instincts and stay focused on your goals.",
+  "Patience will be your greatest asset today. Good things come to those who wait.",
+  "Your social energy is high — connect with friends and explore new opportunities.",
+  "Focus on financial planning. A small step today leads to big rewards tomorrow.",
+  "Creativity flows easily. Use it to solve problems and impress those around you.",
+  "Take a break from routine. A surprise encounter may brighten your day.",
+  "Confidence is your superpower today. Step up and let your voice be heard.",
+  "Pay attention to details — a hidden opportunity is waiting to be discovered.",
+  "Balance work and play. Overcommitting could drain your energy.",
+  "An old connection may resurface with good news. Stay open to possibilities.",
+  "Your determination is unstoppable. Push through challenges with full force.",
+  "Reflect before reacting. A calm mind leads to the best decisions."
+];
+var MSGS_NE=[
+  "हिसाबले जोखिम लिने राम्रो दिन। आफ्नो लक्ष्यमा केन्द्रित रहनुहोस्।",
+  "धैर्य आजको सबैभन्दा ठूलो शक्ति हुनेछ। राम्रो समय आउँदैछ।",
+  "सामाजिक ऊर्जा उच्च छ — साथीहरूसँग भेट्नुहोस् र नयाँ अवसर खोज्नुहोस्।",
+  "आर्थिक योजनामा ध्यान दिनुहोस्। आजको सानो कदमले ठूलो प्रतिफल ल्याउँछ।",
+  "सिर्जनशीलता सजिलै आउँछ। समस्या समाधानमा प्रयोग गर्नुहोस्।",
+  "दैनिक दिनचर्याबाट बिश्राम लिनुहोस्। अनपेक्षित भेटले दिन उज्यालो बनाउन सक्छ।",
+  "आत्मविश्वास आजको महाशक्ति हो। अगाडि बढ्नुहोस्।",
+  "विवरणमा ध्यान दिनुहोस् — लुकेको अवसर पर्खिरहेको छ।",
+  "काम र मनोरञ्जन सन्तुलनमा राख्नुहोस्। धेरै गर्दा थकान हुन्छ।",
+  "पुरानो सम्पर्कले राम्रो खबर ल्याउन सक्छ। खुला रहनुहोस्।",
+  "तपाईंको दृढता अपराजेय छ। चुनौतीलाई पूरा शक्तिले सामना गर्नुहोस्।",
+  "प्रतिक्रिया दिनुअघि सोच्नुहोस्। शान्त मनले सबैभन्दा राम्रो निर्णय गर्छ।"
+];
+var COLORS=["#5c7cfa","#25d366","#ff6b6b","#ffd43b","#a78bfa","#ff8a1e","#38bdf8","#f472b6","#34d399","#fb923c","#818cf8","#e879f9"];
+var LUCKY_EN=["Gold","Blue","Red","Green","Purple","Silver","White","Orange","Pink","Teal","Indigo","Amber"];
+var LUCKY_NE=["सुनौलो","नीलो","रातो","हरियो","बैजनी","चाँदी","सेतो","सुन्तला","गुलाबी","टिल","इन्डिगो","अम्बर"];
+
+var grid=document.getElementById("horoGrid");
+var result=document.getElementById("horoResult");
+
+function seed(sign){var d=new Date();return((d.getFullYear()*1000+d.getMonth()*100+d.getDate())*31+sign*7)%100}
+
+SIGNS.forEach(function(s,i){
+  var b=document.createElement("button");
+  b.className="horo-btn";
+  b.innerHTML='<span class="horo-sym">'+s.sym+'</span><span class="horo-name">'+(curLang==="ne"?s.ne:s.en)+'</span>';
+  b.setAttribute("data-idx",i);
+  b.addEventListener("click",function(){showHoro(i)});
+  grid.appendChild(b);
+});
+
+function showHoro(idx){
+  var s=SIGNS[idx];
+  var sv=seed(idx);
+  var luck=(sv*3+idx*7)%100;
+  var love=(sv*5+idx*13)%100;
+  var career=(sv*7+idx*11)%100;
+  var msgIdx=(sv+idx)%MSGS_EN.length;
+  var colorIdx=(sv+idx)%COLORS.length;
+  var luckyNum=(sv*3+idx*17)%99+1;
+
+  grid.querySelectorAll(".horo-btn").forEach(function(b){b.classList.remove("on")});
+  grid.querySelectorAll(".horo-btn")[idx].classList.add("on");
+
+  var isNe=curLang==="ne";
+  document.getElementById("horoBig").textContent=s.sym;
+  document.getElementById("horoTitle").textContent=isNe?s.ne:s.en;
+  document.getElementById("horoDate").textContent=s.date;
+
+  var body=document.getElementById("horoBody");
+  body.style.display="none";
+  result.classList.remove("show");
+  void result.offsetWidth;
+  result.classList.add("show");
+  result.style.display="block";
+
+  var scanFill=result.querySelector(".scan-fill");
+  scanFill.style.animation="none";
+  void scanFill.offsetWidth;
+  scanFill.style.animation="scanFill 1.2s ease forwards";
+  result.querySelector(".horo-scan span").textContent=isNe?"विश्लेषण गर्दै...":"ANALYZING...";
+
+  setTimeout(function(){
+    body.style.display="block";
+    var stats=document.getElementById("horoStats");
+    stats.innerHTML=
+      '<div class="horo-stat"><div class="stat-label">'+(isNe?"भाग्य":"LUCK")+'</div><div class="stat-val">'+luck+'%</div><div class="stat-bar"><span style="width:'+luck+'%"></span></div></div>'+
+      '<div class="horo-stat"><div class="stat-label">'+(isNe?"प्रेम":"LOVE")+'</div><div class="stat-val">'+love+'%</div><div class="stat-bar"><span style="width:'+love+'%"></span></div></div>'+
+      '<div class="horo-stat"><div class="stat-label">'+(isNe?"करियर":"CAREER")+'</div><div class="stat-val">'+career+'%</div><div class="stat-bar"><span style="width:'+career+'%"></span></div></div>';
+    var luckyColor=isNe?LUCKY_NE[colorIdx]:LUCKY_EN[colorIdx];
+    document.getElementById("horoMsg").innerHTML=
+      '<div style="margin-bottom:8px">'+(isNe?MSGS_NE[msgIdx]:MSGS_EN[msgIdx])+'</div>'+
+      '<div style="display:flex;gap:16px;font-size:11px;color:var(--txt3)">'+
+      '<span>'+(isNe?"भाग्यशाली अंक":"Lucky #")+': <b style="color:var(--blue)">'+luckyNum+'</b></span>'+
+      '<span>'+(isNe?"भाग्यशाली रंग":"Lucky Color")+': <b style="color:'+COLORS[colorIdx]+'">'+luckyColor+'</b></span></div>';
+    result.scrollIntoView({behavior:"smooth",block:"nearest"});
+  },1300);
+}
+
+window.addEventListener("langChanged",function(){
+  grid.querySelectorAll(".horo-btn").forEach(function(b,i){
+    b.querySelector(".horo-name").textContent=curLang==="ne"?SIGNS[i].ne:SIGNS[i].en;
+  });
+  result.style.display="none";
+  result.classList.remove("show");
+  grid.querySelectorAll(".horo-btn").forEach(function(b){b.classList.remove("on")});
+});
 })();
 </script>
 </body>
