@@ -1021,10 +1021,10 @@ scene.addEventListener("touchend",function(){if(dragging){dragging=false;setTime
 function showHoro(idx){
   var s=SIGNS[idx];
   var sv=seed(idx);
-  var luck=(sv*3+idx*7)%100;
-  var love=(sv*5+idx*13)%100;
-  var career=(sv*7+idx*11)%100;
-  var health=(sv*11+idx*3)%100;
+  var luck=(sv*3+idx*7)%41+55;
+  var love=(sv*5+idx*13)%41+55;
+  var career=(sv*7+idx*11)%41+55;
+  var health=(sv*11+idx*3)%41+55;
   var msgIdx=(sv+idx)%MSGS_EN.length;
   var colorIdx=(sv+idx)%COLORS.length;
   var luckyNum=(sv*3+idx*17)%99+1;
