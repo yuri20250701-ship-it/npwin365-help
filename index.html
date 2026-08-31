@@ -544,7 +544,7 @@ body>*{position:relative;z-index:1}
 </nav>
 
 <!-- Floating CS button -->
-<a href="https://chat-cs010.icxglobal.ai/?bid=9b51e2db-d7ab-4c15-87b2-25ba3b888c58&lang=en" class="cs-float" id="csFloat" target="_blank" rel="noopener">
+<a href="https://direct.lc.chat/14217984/12/" class="cs-float" id="csFloat" target="_blank" rel="noopener" onclick="if(window.LiveChatWidget){LiveChatWidget.call('maximize');event.preventDefault();return false;}">
   <div class="cs-float-ring"></div>
   <div class="cs-float-bg"></div>
   <div class="cs-float-corner cfc-tl"></div><div class="cs-float-corner cfc-tr"></div>
@@ -556,7 +556,7 @@ body>*{position:relative;z-index:1}
 <button class="btt" id="btt"><svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></button>
 
 <script>
-var LINKS={fb:"https://www.facebook.com/profile.php?id=61590565557859",tg:"https://t.me/npwin365",ig:"",register:"https://www.npwin365.net/en-np?aff=b483353c28",ios:"#",android:"https://d2hrvn301tj6q6.cloudfront.net/app/Npwin365.apk",cs:"https://chat-cs010.icxglobal.ai/?bid=9b51e2db-d7ab-4c15-87b2-25ba3b888c58&lang=en",promo:"https://www.npwin365.net/en-np/promotions",registerPage:"https://www.npwin365.net/en-np/register?aff=b483353c28"};
+var LINKS={fb:"https://www.facebook.com/profile.php?id=61590565557859",tg:"https://t.me/npwin365",ig:"",register:"https://www.npwin365.net/en-np?aff=b483353c28",ios:"#",android:"https://d2hrvn301tj6q6.cloudfront.net/app/Npwin365.apk",cs:"https://direct.lc.chat/14217984/12/",promo:"https://www.npwin365.net/en-np/promotions",registerPage:"https://www.npwin365.net/en-np/register?aff=b483353c28"};
 
 var STEPS={
   register:[
@@ -1101,5 +1101,20 @@ window.addEventListener("langChanged",function(){
 });
 })();
 </script>
+
+<!-- Hide LiveChat default bubble (use our own cs-float button) -->
+<style>#chat-widget-container{visibility:hidden}#chat-widget-container[data-widget-state="maximized"],#chat-widget-container[data-widget-state="minimized"]{visibility:visible}</style>
+
+<!-- Start of LiveChat (www.livechat.com) code -->
+<script>
+    window.__lc = window.__lc || {};
+    window.__lc.license = 14217984;
+    window.__lc.group = 12;
+    window.__lc.integration_name = "manual_channels";
+    window.__lc.product_name = "livechat";
+    ;(function(n,t,c){function i(n){return e._h?e._h.apply(null,n):e._q.push(n)}var e={_q:[],_h:null,_v:"2.0",on:function(){i(["on",c.call(arguments)])},once:function(){i(["once",c.call(arguments)])},off:function(){i(["off",c.call(arguments)])},get:function(){if(!e._h)throw new Error("[LiveChatWidget] You can't use getters before load.");return i(["get",c.call(arguments)])},call:function(){i(["call",c.call(arguments)])},init:function(){var n=t.createElement("script");n.async=!0,n.type="text/javascript",n.src="https://cdn.livechatinc.com/tracking.js",t.head.appendChild(n)}};!n.__lc.asyncInit&&e.init(),n.LiveChatWidget=n.LiveChatWidget||e}(window,document,[].slice))
+</script>
+<noscript><a href="https://www.livechat.com/chat-with/14217984/" rel="nofollow">Chat with us</a>, powered by <a href="https://www.livechat.com/?welcome" rel="noopener nofollow" target="_blank">LiveChat</a></noscript>
+<!-- End of LiveChat code -->
 </body>
 </html>
